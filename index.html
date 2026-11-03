@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BFX Capital — Trading Intelligence & Copy Trading MT5</title>
+  <meta name="description" content="BFX Capital réunit signaux, scanner automatisé et copy trading MT5 dans un seul écosystème, avec un moteur de risque qui protège chaque compte." />
+  <meta name="theme-color" content="#0f0f13" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: '#0b0b0f',
+            surface: '#121218',
+            primary: '#8b5cf6',
+            primaryHover: '#7c3aed',
+            muted: '#94a3b8',
+            border: '#1e1e2a',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      background-color: #0b0b0f;
+      color: #f1f5f9;
+    }
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
+
+  <!-- ========== HEADER ========== -->
+  <header class="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
+    <nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 md:px-8">
+      <a href="#top" class="flex items-center gap-2.5">
+        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-sm font-bold text-white">B</span>
+        <span class="text-sm font-semibold tracking-tight">BFX Capital</span>
+      </a>
+
+      <ul class="hidden items-center gap-8 md:flex">
+        <li><a href="#products" class="text-sm text-muted transition hover:text-white">Products</a></li>
+        <li><a href="#copy-engine" class="text-sm text-muted transition hover:text-white">Copy Engine</a></li>
+        <li><a href="#risk" class="text-sm text-muted transition hover:text-white">Risk Management</a></li>
+        <li><a href="#signals" class="text-sm text-muted transition hover:text-white">Signals</a></li>
+        <li><a href="#pricing" class="text-sm text-muted transition hover:text-white">Pricing</a></li>
+        <li><a href="#faq" class="text-sm text-muted transition hover:text-white">FAQ</a></li>
+      </ul>
+
+      <div class="flex items-center gap-3">
+        <a href="#pricing" class="hidden text-sm text-muted transition hover:text-white sm:inline">Member sign in</a>
+        <a href="#cta" class="rounded-full bg-primary px-5 py-2 text-sm font-medium text-white transition hover:bg-primaryHover">
+          Rejoindre
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ========== HERO ========== -->
+  <section id="top" class="relative overflow-hidden grid-bg">
+    <div class="mx-auto max-w-6xl px-4 py-20 md:px-8 md:py-28">
+      <div class="grid items-center gap-12 lg:grid-cols-2">
+        <!-- Left content -->
+        <div>
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 text-xs font-medium text-muted">
+            <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+            INFRASTRUCTURE MT5 EN DIRECT
+          </div>
+
+          <h1 class="text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl">
+            Tradez avec la<br />
+            rigueur d'une<br />
+            équipe, l'exécution<br />
+            d'une machine.
+          </h1>
+
+          <p class="mt-6 max-w-lg text-base leading-relaxed text-muted">
+            BFX CAPITAL réunit signaux, scanner automatisé et copy trading MT5 dans un seul écosystème, avec un moteur de risque qui protège chaque compte, à chaque trade.
+          </p>
+
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="#cta" class="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-primaryHover">
+              Rejoindre la communauté
+            </a>
+            <a href="#signals" class="rounded-full border border-border px-6 py-3 text-sm font-medium text-white transition hover:border-primary/50">
+              Voir les signaux en direct
+            </a>
+          </div>
+
+          <!-- Stats -->
+          <div class="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-4">
+            <div>
+              <div class="text-2xl font-bold">0.003</div>
+              <div class="mt-1 text-xs text-muted">Minimum lot size</div>
+            </div>
+            <div>
+              <div class="text-2xl font-bold">3%</div>
+              <div class="mt-1 text-xs text-muted">Daily loss cap, enforced</div>
+            </div>
+            <div>
+              <div class="text-2xl font-bold">0.5–2%</div>
+              <div class="mt-1 text-xs text-muted">Risk per trade</div>
+            </div>
+            <div>
+              <div class="text-2xl font-bold">24/5</div>
+              <div class="mt-1 text-xs text-muted">Market coverage</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right card (signal preview) -->
+        <div class="relative">
+          <div class="rounded-2xl border border-border bg-surface p-5 shadow-2xl">
+            <div class="mb-4 flex items-center justify-between">
+              <div class="flex gap-1.5">
+                <span class="h-3 w-3 rounded-full bg-red-500"></span>
+                <span class="h-3 w-3 rounded-full bg-yellow-500"></span>
+                <span class="h-3 w-3 rounded-full bg-green-500"></span>
+              </div>
+              <span class="text-xs text-muted">XAU/USD · H1</span>
+            </div>
+
+            <!-- Simple chart placeholder -->
+            <div class="mb-5 h-32 rounded-lg bg-background flex items-end justify-between px-2 pb-2">
+              <div class="w-2 rounded-t bg-emerald-500/80" style="height:35%"></div>
+              <div class="w-2 rounded-t bg-emerald-500/80" style="height:45%"></div>
+              <div class="w-2 rounded-t bg-emerald-500/80" style="height:30%"></div>
+              <div class="w-2 rounded-t bg-emerald-500/80" style="height:55%"></div>
+              <div class="w-2 rounded-t bg-emerald-500/80" style="height:48%"></div>
+              <div class="w-2 rounded-t bg-emerald-500/80" style="height:65%"></div>
+              <div class="w-2 rounded-t bg-emerald-500/80" style="height:58%"></div>
+              <div class="w-2 rounded-t bg-emerald-500/80" style="height:72%"></div>
+              <div class="w-2 rounded-t bg-emerald-500/80" style="height:68%"></div>
+              <div class="w-2 rounded-t bg-emerald-500/80" style="height:80%"></div>
+              <div class="w-2 rounded-t bg-emerald-500/80" style="height:75%"></div>
+              <div class="w-2 rounded-t bg-emerald-500/80" style="height:88%"></div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3">
+              <div class="rounded-lg bg-background p-3 text-center">
+                <div class="text-xs text-muted">Entrée</div>
+                <div class="mt-1 font-semibold">2 648.3</div>
+              </div>
+              <div class="rounded-lg bg-background p-3 text-center">
+                <div class="text-xs text-muted">Stop Loss</div>
+                <div class="mt-1 font-semibold text-red-400">2 659.4</div>
+              </div>
+              <div class="rounded-lg bg-background p-3 text-center">
+                <div class="text-xs text-muted">TP1</div>
+                <div class="mt-1 font-semibold text-emerald-400">2 639.0</div>
+              </div>
+            </div>
+
+            <div class="mt-4 flex items-center justify-between rounded-lg bg-background px-3 py-2 text-xs">
+              <span class="rounded bg-primary/20 px-2 py-0.5 text-primary">SELL confirmé · R/R 1:3.1</span>
+              <span class="text-muted">il y a 4 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PRODUCTS ========== -->
+  <section id="products" class="border-t border-border py-20 md:py-28">
+    <div class="mx-auto max-w-6xl px-4 md:px-8">
+      <div class="mb-12 max-w-2xl">
+        <p class="text-sm font-medium uppercase tracking-wider text-primary">Produits</p>
+        <h2 class="mt-2 text-3xl font-bold tracking-tight md:text-4xl">Trois modules, un seul moteur de décision.</h2>
+        <p class="mt-4 text-muted">
+          Chaque produit s'appuie sur la même analyse de structure de marché. Utilisez-les séparément ou combinés pour couvrir analyse, détection et exécution.
+        </p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-3">
+        <!-- Analysis -->
+        <div class="rounded-2xl border border-border bg-surface p-6 transition hover:border-primary/30">
+          <div class="mb-4 text-xs font-semibold uppercase tracking-wider text-primary">Analysis</div>
+          <h3 class="text-xl font-semibold">Indicator On Demand</h3>
+          <p class="mt-3 text-sm leading-relaxed text-muted">
+            Configurable multi-timeframe indicator built on market structure, liquidity and volume confirmation — not lagging moving averages.
+          </p>
+          <ul class="mt-5 space-y-2 text-sm text-muted">
+            <li class="flex items-start gap-2"><span class="mt-1 text-primary">•</span> BOS and CHoCH detection</li>
+            <li class="flex items-start gap-2"><span class="mt-1 text-primary">•</span> Supply and demand zones</li>
+            <li class="flex items-start gap-2"><span class="mt-1 text-primary">•</span> Liquidity sweep detection</li>
+            <li class="flex items-start gap-2"><span class="mt-1 text-primary">•</span> Multi-timeframe confluence</li>
+          </ul>
+        </div>
+
+        <!-- Automation -->
+        <div class="rounded-2xl border border-border bg-surface p-6 transition hover:border-primary/30">
+          <div class="mb-4 text-xs font-semibold uppercase tracking-wider text-primary">Automation</div>
+          <h3 class="text-xl font-semibold">Real Auto Scanner</h3>
+          <p class="mt-3 text-sm leading-relaxed text-muted">
+            Continuous scanning across selected instruments, scoring signal strength and preventing duplicate alerts.
+          </p>
+          <ul class="mt-5 space-y-2 text-sm text-muted">
+            <li class="flex items-start gap-2"><span class="mt-1 text-primary">•</span> Automatic entry zone calculation</li>
+            <li class="flex items-start gap-2"><span class="mt-1 text-primary">•</span> TP1 / TP2 / TP3 generation</li>
+            <li class="flex items-start gap-2"><span class="mt-1 text-primary">•</span> Signal strength scoring</li>
+            <li class="flex items-start gap-2"><span class="mt-1 text-primary">•</span> Duplicate signal prevention</li>
+          </ul>
+        </div>
+
+        <!-- Execution -->
+        <div class="rounded-2xl border border-border bg-surface p-6 transition hover:border-primary/30">
+          <div class="mb-4 text-xs font-semibold uppercase tracking-wider text-primary">Execution</div>
+          <h3 class="text-xl font-semibold">Auto Robot (MT5 EA)</h3>
+          <p class="mt-3 text-sm leading-relaxed text-muted">
+            Manual or automatic trade execution on MT5, with dynamic lot sizing, confirmed auto-reverse and protective exits.
+          </p>
+          <ul class="mt-5 space-y-2 text-sm text-muted">
+            <li class="flex items-start gap-2"><span class="mt-1 text-primary">•</span> Dynamic & fixed lot modes</li>
+            <li class="flex items-start gap-2"><span class="mt-1 text-primary">•</span> Trailing stop, break-even</li>
+            <li class="flex items-start gap-2"><span class="mt-1 text-primary">•</span> Confirmed auto-reverse</li>
+            <li class="flex items-start gap-2"><span class="mt-1 text-primary">•</span> Max open positions control</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== COPY ENGINE & RISK ========== -->
+  <section id="copy-engine" class="border-t border-border bg-surface/40 py-20 md:py-28">
+    <div class="mx-auto max-w-6xl px-4 md:px-8">
+      <div class="grid gap-12 lg:grid-cols-2">
+        <div>
+          <p class="text-sm font-medium uppercase tracking-wider text-primary">Copy Engine</p>
+          <h2 class="mt-2 text-3xl font-bold tracking-tight">Exécution contrôlée, pas de surprises.</h2>
+          <p class="mt-4 text-muted">
+            Le moteur de copy trading permet le mode manuel (confirmation requise) ou automatique. Chaque compte a ses propres paramètres de risque, lot size et limites.
+          </p>
+          <ul class="mt-6 space-y-3 text-sm text-muted">
+            <li class="flex gap-3"><span class="text-primary">✓</span> Mode manuel ou automatique</li>
+            <li class="flex gap-3"><span class="text-primary">✓</span> Paramètres de risque individuels par compte</li>
+            <li class="flex gap-3"><span class="text-primary">✓</span> Auto-reverse uniquement sur signal confirmé</li>
+            <li class="flex gap-3"><span class="text-primary">✓</span> Révocation instantanée de l'accès</li>
+          </ul>
+        </div>
+
+        <div id="risk">
+          <p class="text-sm font-medium uppercase tracking-wider text-primary">Risk Management</p>
+          <h2 class="mt-2 text-3xl font-bold tracking-tight">Protection à chaque trade.</h2>
+          <p class="mt-4 text-muted">
+            Un moteur de risque dédié bloque automatiquement les nouveaux trades dès que la limite quotidienne est atteinte.
+          </p>
+          <div class="mt-6 grid grid-cols-2 gap-4">
+            <div class="rounded-xl border border-border bg-background p-4">
+              <div class="text-2xl font-bold">3%</div>
+              <div class="mt-1 text-xs text-muted">Daily loss cap (enforced)</div>
+            </div>
+            <div class="rounded-xl border border-border bg-background p-4">
+              <div class="text-2xl font-bold">0.5–2%</div>
+              <div class="mt-1 text-xs text-muted">Risk per trade</div>
+            </div>
+            <div class="rounded-xl border border-border bg-background p-4">
+              <div class="text-2xl font-bold">SL</div>
+              <div class="mt-1 text-xs text-muted">Stop Loss obligatoire</div>
+            </div>
+            <div class="rounded-xl border border-border bg-background p-4">
+              <div class="text-2xl font-bold">0.003</div>
+              <div class="mt-1 text-xs text-muted">Min lot size</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PRICING ========== -->
+  <section id="pricing" class="border-t border-border py-20 md:py-28">
+    <div class="mx-auto max-w-6xl px-4 md:px-8">
+      <div class="mb-12 text-center">
+        <p class="text-sm font-medium uppercase tracking-wider text-primary">Tarifs</p>
+        <h2 class="mt-2 text-3xl font-bold tracking-tight md:text-4xl">Commencez gratuitement, automatisez quand vous êtes prêt.</h2>
+        <p class="mt-4 text-muted">Aucune carte bancaire requise pour rejoindre la communauté et suivre les signaux en direct.</p>
+      </div>
+
+      <div class="grid gap-6 lg:grid-cols-3">
+        <!-- Community -->
+        <div class="rounded-2xl border border-border bg-surface p-6">
+          <h3 class="text-lg font-semibold">Community</h3>
+          <div class="mt-4 flex items-baseline gap-1">
+            <span class="text-4xl font-bold">€0</span>
+            <span class="text-muted">forever</span>
+          </div>
+          <p class="mt-2 text-sm text-muted">Full access to the signal feed and manual copy trading.</p>
+          <a href="#cta" class="mt-6 block w-full rounded-full border border-border py-2.5 text-center text-sm font-medium transition hover:border-primary/50">
+            Join for free
+          </a>
+          <ul class="mt-6 space-y-2.5 text-sm text-muted">
+            <li>✓ Live BUY/SELL signals</li>
+            <li>✓ Entry zone, SL, TP1–TP3</li>
+            <li>✓ Manual Copy Trading</li>
+            <li>✓ Discord community access</li>
+            <li>✓ Signal history & email notifications</li>
+          </ul>
+        </div>
+
+        <!-- Automated (highlighted) -->
+        <div class="relative rounded-2xl border-2 border-primary bg-surface p-6">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-0.5 text-xs font-medium text-white">
+            Le plus choisi
+          </div>
+          <h3 class="text-lg font-semibold">Automated</h3>
+          <div class="mt-4 flex items-baseline gap-1">
+            <span class="text-4xl font-bold">€79</span>
+            <span class="text-muted">/month</span>
+          </div>
+          <p class="mt-2 text-sm text-muted">Automatic execution with individual risk controls.</p>
+          <a href="#cta" class="mt-6 block w-full rounded-full bg-primary py-2.5 text-center text-sm font-semibold text-white transition hover:bg-primaryHover">
+            Start automated copy
+          </a>
+          <ul class="mt-6 space-y-2.5 text-sm text-muted">
+            <li>✓ Everything in Community</li>
+            <li>✓ Automatic Copy Trading</li>
+            <li>✓ Individual lot size & risk settings</li>
+            <li>✓ Trailing stop & break-even</li>
+            <li>✓ Confirmed auto-reverse</li>
+            <li>✓ Priority Discord alerts</li>
+            <li>✓ Performance reports</li>
+          </ul>
+        </div>
+
+        <!-- Pro Desk -->
+        <div class="rounded-2xl border border-border bg-surface p-6">
+          <h3 class="text-lg font-semibold">Pro Desk</h3>
+          <div class="mt-4 flex items-baseline gap-1">
+            <span class="text-4xl font-bold">€199</span>
+            <span class="text-muted">/month</span>
+          </div>
+          <p class="mt-2 text-sm text-muted">Full toolkit for active traders running their own analysis.</p>
+          <a href="#cta" class="mt-6 block w-full rounded-full border border-border py-2.5 text-center text-sm font-medium transition hover:border-primary/50">
+            Get Pro Desk
+          </a>
+          <ul class="mt-6 space-y-2.5 text-sm text-muted">
+            <li>✓ Everything in Automated</li>
+            <li>✓ Indicator On Demand access</li>
+            <li>✓ Real Auto Scanner access</li>
+            <li>✓ Multi-timeframe confluence alerts</li>
+            <li>✓ Custom risk profiles per strategy</li>
+            <li>✓ Dedicated account review</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FAQ ========== -->
+  <section id="faq" class="border-t border-border bg-surface/40 py-20 md:py-28">
+    <div class="mx-auto max-w-3xl px-4 md:px-8">
+      <div class="mb-12 text-center">
+        <p class="text-sm font-medium uppercase tracking-wider text-primary">Questions fréquentes</p>
+        <h2 class="mt-2 text-3xl font-bold tracking-tight">Tout ce qu'il faut savoir avant de connecter votre compte.</h2>
+      </div>
+
+      <div class="space-y-4">
+        <details class="group rounded-xl border border-border bg-background p-5">
+          <summary class="cursor-pointer list-none font-medium">
+            How does Manual Copy differ from Automatic Copy?
+          </summary>
+          <p class="mt-3 text-sm leading-relaxed text-muted">
+            In Manual mode, every trade instruction is sent to your account but requires your confirmation before execution. In Automatic mode, the client EA executes authorized trades instantly, within your configured risk limits. You can switch between modes or disable copying at any time.
+          </p>
+        </details>
+
+        <details class="group rounded-xl border border-border bg-background p-5">
+          <summary class="cursor-pointer list-none font-medium">
+            What happens when my account hits the 3% daily loss limit?
+          </summary>
+          <p class="mt-3 text-sm leading-relaxed text-muted">
+            New trades and automatic reversals are blocked immediately, while existing protective stop losses stay in place. You receive an email alert, and the account remains blocked until the next trading day.
+          </p>
+        </details>
+
+        <details class="group rounded-xl border border-border bg-background p-5">
+          <summary class="cursor-pointer list-none font-medium">
+            Are my MT5 credentials stored on the platform?
+          </summary>
+          <p class="mt-3 text-sm leading-relaxed text-muted">
+            No. Communication between your MT5 account and our backend uses secure, revocable authentication tokens, never plain-text credentials. You can revoke access instantly from your dashboard.
+          </p>
+        </details>
+
+        <details class="group rounded-xl border border-border bg-background p-5">
+          <summary class="cursor-pointer list-none font-medium">
+            What lot sizes and risk levels are supported?
+          </summary>
+          <p class="mt-3 text-sm leading-relaxed text-muted">
+            Lot sizes range from a minimum of 0.003 to a maximum of 0.14 per position, validated against your broker’s specifications. Risk per trade is configurable between 0.5% and 2%, enforced independently for every connected account.
+          </p>
+        </details>
+
+        <details class="group rounded-xl border border-border bg-background p-5">
+          <summary class="cursor-pointer list-none font-medium">
+            Does Auto-Reverse trade on every opposite signal?
+          </summary>
+          <p class="mt-3 text-sm leading-relaxed text-muted">
+            No. Auto-Reverse only triggers after confirmation of a genuine opposite trading signal. The robot closes the existing position, re-verifies execution and risk availability, then opens the reverse position — never on a single contrarian tick.
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA ========== -->
+  <section id="cta" class="border-t border-border py-20 md:py-28">
+    <div class="mx-auto max-w-2xl px-4 text-center md:px-8">
+      <h2 class="text-3xl font-bold tracking-tight md:text-4xl">Connectez votre compte MT5 en moins de cinq minutes.</h2>
+      <p class="mt-4 text-muted">
+        Rejoignez la communauté gratuitement, recevez vos premiers signaux et activez le copy trading quand vous êtes prêt.
+      </p>
+
+      <form class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center" onsubmit="event.preventDefault(); alert('Merci ! Vous serez contacté bientôt.');">
+        <input
+          type="text"
+          placeholder="Nom"
+          required
+          class="rounded-full border border-border bg-surface px-5 py-3 text-sm outline-none focus:border-primary"
+        />
+        <input
+          type="email"
+          placeholder="Adresse e-mail"
+          required
+          class="rounded-full border border-border bg-surface px-5 py-3 text-sm outline-none focus:border-primary"
+        />
+        <button type="submit" class="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-primaryHover">
+          Rejoindre gratuitement
+        </button>
+      </form>
+      <p class="mt-3 text-xs text-muted">Sans engagement, désinscription en un clic.</p>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="border-t border-border bg-surface/60 py-12">
+    <div class="mx-auto max-w-6xl px-4 md:px-8">
+      <div class="grid gap-8 md:grid-cols-4">
+        <div>
+          <div class="flex items-center gap-2.5">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-primary text-sm font-bold text-white">B</span>
+            <span class="text-sm font-semibold">BFX Capital</span>
+          </div>
+          <p class="mt-4 text-sm text-muted">
+            Plateforme de trading intelligence et de copy trading pour MetaTrader 5, pensée pour une gestion de risque rigoureuse.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-semibold">Plateforme</h4>
+          <ul class="mt-3 space-y-2 text-sm text-muted">
+            <li><a href="#products" class="hover:text-white">Products</a></li>
+            <li><a href="#copy-engine" class="hover:text-white">Copy Engine</a></li>
+            <li><a href="#risk" class="hover:text-white">Risk Management</a></li>
+            <li><a href="#pricing" class="hover:text-white">Pricing</a></li>
+            <li><a href="#faq" class="hover:text-white">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-semibold">Ressources</h4>
+          <ul class="mt-3 space-y-2 text-sm text-muted">
+            <li><a href="#" class="hover:text-white">Documentation MT5</a></li>
+            <li><a href="#" class="hover:text-white">Journaux d’audit</a></li>
+            <li><a href="#" class="hover:text-white">Statut de la plateforme</a></li>
+            <li><a href="#" class="hover:text-white">Discord communauté</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-semibold">Légal</h4>
+          <ul class="mt-3 space-y-2 text-sm text-muted">
+            <li><a href="#" class="hover:text-white">Mentions légales</a></li>
+            <li><a href="#" class="hover:text-white">Confidentialité</a></li>
+            <li><a href="#" class="hover:text-white">Avertissement sur les risques</a></li>
+            <li><a href="#" class="hover:text-white">Conformité RGPD</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-12 border-t border-border pt-8 text-center text-xs text-muted">
+        <p>© 2024–2026 BFX CAPITAL. Tous droits réservés.</p>
+        <p class="mt-2">
+          Le trading sur marge comporte un risque élevé de perte en capital. Le copy trading automatique ne garantit aucun résultat.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
