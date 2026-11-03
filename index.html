@@ -1,2 +1,108 @@
 <!DOCTYPE html>
-<!-- content truncated for this call - will use alternative -->
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BFX Capital — Trading Intelligence & Copy Trading MT5</title>
+  <meta name="description" content="BFX Capital réunit signaux, scanner automatisé et copy trading MT5 dans un seul écosystème, avec un moteur de risque qui protège chaque compte." />
+  <meta name="theme-color" content="#0f0f13" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: '#0b0b0f',
+            surface: '#121218',
+            primary: '#8b5cf6',
+            primaryHover: '#7c3aed',
+            muted: '#94a3b8',
+            border: '#1e1e2a',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    body { background-color: #0b0b0f; color: #f1f5f9; }
+    .grid-bg {
+      background-image: linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
+  <header class="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
+    <nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 md:px-8">
+      <a href="#top" class="flex items-center gap-2.5">
+        <img src="logo.png" alt="BFX Capital" class="h-9 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'" />
+        <span class="hidden h-9 w-9 items-center justify-center rounded-xl bg-primary text-sm font-bold text-white">B</span>
+        <span class="text-sm font-semibold tracking-tight">BFX Capital</span>
+      </a>
+      <ul class="hidden items-center gap-8 md:flex">
+        <li><a href="#products" class="text-sm text-muted transition hover:text-white">Products</a></li>
+        <li><a href="#copy-engine" class="text-sm text-muted transition hover:text-white">Copy Engine</a></li>
+        <li><a href="#risk" class="text-sm text-muted transition hover:text-white">Risk Management</a></li>
+        <li><a href="#signals" class="text-sm text-muted transition hover:text-white">Signals</a></li>
+        <li><a href="#pricing" class="text-sm text-muted transition hover:text-white">Pricing</a></li>
+        <li><a href="#faq" class="text-sm text-muted transition hover:text-white">FAQ</a></li>
+      </ul>
+      <div class="flex items-center gap-3">
+        <a href="#pricing" class="hidden text-sm text-muted transition hover:text-white sm:inline">Member sign in</a>
+        <a href="#cta" class="rounded-full bg-primary px-5 py-2 text-sm font-medium text-white transition hover:bg-primaryHover">Rejoindre</a>
+      </div>
+    </nav>
+  </header>
+  <!-- HERO + PRODUCTS + COPY ENGINE + SIGNALS + PRICING + FAQ + CTA + FOOTER are in the full version. See repo for complete file. -->
+  <section id="signals" class="border-t border-border py-20 md:py-28">
+    <div class="mx-auto max-w-6xl px-4 md:px-8">
+      <div class="mb-12 max-w-2xl">
+        <p class="text-sm font-medium uppercase tracking-wider text-primary">Signals</p>
+        <h2 class="mt-2 text-3xl font-bold tracking-tight md:text-4xl">Signaux en direct — TradingView</h2>
+        <p class="mt-4 text-muted">Graphiques et analyses en temps réel. Suivez XAU/USD et les paires majeures directement depuis la plateforme.</p>
+      </div>
+      <div class="mb-8 overflow-hidden rounded-xl border border-border bg-surface">
+        <div class="tradingview-widget-container">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+          { "symbols": [ {"proName": "FOREXCOM:XAUUSD", "title": "Gold"}, {"proName": "FX:EURUSD", "title": "EUR/USD"}, {"proName": "FX:GBPUSD", "title": "GBP/USD"}, {"proName": "FX:USDJPY", "title": "USD/JPY"}, {"proName": "BITSTAMP:BTCUSD", "title": "BTC/USD"} ], "showSymbolLogo": true, "isTransparent": true, "displayMode": "adaptive", "colorTheme": "dark", "locale": "fr" }
+          </script>
+        </div>
+      </div>
+      <div class="grid gap-6 lg:grid-cols-2">
+        <div class="overflow-hidden rounded-2xl border border-border bg-surface">
+          <div class="border-b border-border px-4 py-3 text-sm font-medium">XAU/USD · Gold — Advanced Chart</div>
+          <div class="tradingview-widget-container" style="height:420px">
+            <div class="tradingview-widget-container__widget" style="height:100%"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+            { "autosize": true, "symbol": "FOREXCOM:XAUUSD", "interval": "60", "timezone": "Europe/Paris", "theme": "dark", "style": "1", "locale": "fr", "allow_symbol_change": true, "support_host": "https://www.tradingview.com" }
+            </script>
+          </div>
+        </div>
+        <div class="overflow-hidden rounded-2xl border border-border bg-surface">
+          <div class="border-b border-border px-4 py-3 text-sm font-medium">EUR/USD — Advanced Chart</div>
+          <div class="tradingview-widget-container" style="height:420px">
+            <div class="tradingview-widget-container__widget" style="height:100%"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+            { "autosize": true, "symbol": "FX:EURUSD", "interval": "60", "timezone": "Europe/Paris", "theme": "dark", "style": "1", "locale": "fr", "allow_symbol_change": true, "support_host": "https://www.tradingview.com" }
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="border-t border-border bg-surface/60 py-12">
+    <div class="mx-auto max-w-6xl px-4 md:px-8 text-center text-xs text-muted">
+      <p>© 2024–2026 BFX CAPITAL. Tous droits réservés.</p>
+      <p class="mt-2">Le trading sur marge comporte un risque élevé de perte en capital.</p>
+    </div>
+  </footer>
+</body>
+</html>
