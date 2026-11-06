@@ -1,0 +1,153 @@
+//@version=6
+indicator("BFX SMART STRUCTURE PRO v2", overlay=true, max_labels_count=500, max_lines_count=100)
+
+// =====================================
+// INPUTS
+// =====================================
+pivotLen      = input.int(5, "Swing Sensitivity", minval=2, group="Structure")
+atrLen        = input.int(14, "ATR Period", group="Structure")
+touchMult     = input.float(0.15, "Touch Tolerance (ATR)", step=0.05, group="Support/Resistance")
+minTouches    = input.int(2, "Min Touches to Highlight", minval=1, group="Support/Resistance")
+
+showLevels    = input.bool(true, "Show Support/Resistance", group="Display")
+showSweeps    = input.bool(true, "Show Liquidity Sweeps", group="Display")
+showSignals   = input.bool(true, "Show BUY/SELL", group="Display")
+showStructure = input.bool(true, "Show BOS / CHoCH", group="Display")
+
+// =====================================
+// CALCULATIONS
+// =====================================
+atr = ta.atr(atrLen)
+tolerance = atr * touchMult
+
+ph = ta.pivothigh(high, pivotLen, pivotLen)
+pl = ta.pivotlow(low, pivotLen, pivotLen)
+
+var float swingHigh = na
+var float swingLow  = na
+var int   highBar   = na
+var int   lowBar    = na
+
+var bool  highBroken = false
+var bool  lowBroken  = false
+var int   trend      = 0   // 1 = Bullish, -1 = Bearish, 0 = Neutral
+
+// Update swings
+if not na(ph)
+    swingHigh := ph
+    highBar   := bar_index - pivotLen
+    highBroken := false
+
+if not na(pl)
+    swingLow := pl
+    lowBar   := bar_index - pivotLen
+    lowBroken := false
+
+// =====================================
+// BOS & CHoCH
+// =====================================
+bullBreak = not na(swingHigh) and not highBroken and close > swingHigh and close[1] <= swingHigh
+bearBreak = not na(swingLow)  and not lowBroken  and close < swingLow  and close[1] >= swingLow
+
+bullCHoCH = bullBreak and trend == -1
+bearCHoCH = bearBreak and trend == 1
+
+if barstate.isconfirmed
+    if bullBreak
+        if showStructure
+            label.new(bar_index, low, bullCHoCH ? "CHoCH ↑" : "BOS ↑", 
+                      style=label.style_label_up, color=color.green, textcolor=color.white, size=size.small)
+        highBroken := true
+        trend := 1
+
+    if bearBreak
+        if showStructure
+            label.new(bar_index, high, bearCHoCH ? "CHoCH ↓" : "BOS ↓", 
+                      style=label.style_label_down, color=color.red, textcolor=color.white, size=size.small)
+        lowBroken := true
+        trend := -1
+
+// =====================================
+// SUPPORT & RESISTANCE TOUCHES
+// =====================================
+var int resistanceTouches = 0
+var int supportTouches    = 0
+var int lastResTouch      = na
+var int lastSupTouch      = na
+
+if not na(ph)
+    resistanceTouches := 0
+    lastResTouch := na
+
+if not na(pl)
+    supportTouches := 0
+    lastSupTouch := na
+
+resTouch = not na(swingHigh) and bar_index > highBar and high >= swingHigh - tolerance and close < swingHigh
+supTouch = not na(swingLow)  and bar_index > lowBar  and low  <= swingLow  + tolerance and close > swingLow
+
+if barstate.isconfirmed
+    if resTouch and (na(lastResTouch) or bar_index - lastResTouch > 3)
+        resistanceTouches += 1
+        lastResTouch := bar_index
+
+    if supTouch and (na(lastSupTouch) or bar_index - lastSupTouch > 3)
+        supportTouches += 1
+        lastSupTouch := bar_index
+
+// Plot levels
+plot(showLevels ? swingHigh : na, "Resistance", color=color.new(color.red, 0), linewidth=2, style=plot.style_stepline)
+plot(showLevels ? swingLow  : na, "Support",    color=color.new(color.lime, 0), linewidth=2, style=plot.style_stepline)
+
+// =====================================
+// LIQUIDITY SWEEPS
+// =====================================
+bullSweep = not na(swingLow) and low < swingLow and close > swingLow
+bearSweep = not na(swingHigh) and high > swingHigh and close < swingHigh
+
+plotshape(showSweeps and bullSweep and barstate.isconfirmed, 
+          title="Bull Sweep", text="SWEEP ↑", style=shape.labelup, 
+          location=location.belowbar, color=color.teal, textcolor=color.white, size=size.tiny)
+
+plotshape(showSweeps and bearSweep and barstate.isconfirmed, 
+          title="Bear Sweep", text="SWEEP ↓", style=shape.labeldown, 
+          location=location.abovebar, color=color.orange, textcolor=color.white, size=size.tiny)
+
+// =====================================
+// BUY / SELL SIGNALS
+// =====================================
+buySignal  = bullBreak and barstate.isconfirmed
+sellSignal = bearBreak and barstate.isconfirmed
+
+plotshape(showSignals and buySignal, title="BUY", text="BUY", 
+          style=shape.labelup, location=location.belowbar, 
+          color=color.green, textcolor=color.white, size=size.normal)
+
+plotshape(showSignals and sellSignal, title="SELL", text="SELL", 
+          style=shape.labeldown, location=location.abovebar, 
+          color=color.red, textcolor=color.white, size=size.normal)
+
+// =====================================
+// INFO LABEL
+// =====================================
+var label infoLabel = na
+if barstate.islast
+    label.delete(infoLabel)
+    trendText = trend == 1 ? "BULLISH" : trend == -1 ? "BEARISH" : "NEUTRAL"
+    infoLabel := label.new(bar_index, high,
+         "BFX SMART STRUCTURE v2\n" +
+         "Resistance touches: " + str.tostring(resistanceTouches) + "\n" +
+         "Support touches: " + str.tostring(supportTouches) + "\n" +
+         "Trend: " + trendText,
+         style=label.style_label_lower_left,
+         color=color.new(color.black, 20),
+         textcolor=color.white,
+         size=size.normal)
+
+// =====================================
+// ALERTS
+// =====================================
+alertcondition(buySignal,  "BFX BUY",  "BFX SMART STRUCTURE: BUY")
+alertcondition(sellSignal, "BFX SELL", "BFX SMART STRUCTURE: SELL")
+alertcondition(bullSweep,  "Bullish Sweep", "Bullish Liquidity Sweep")
+alertcondition(bearSweep,  "Bearish Sweep", "Bearish Liquidity Sweep")
